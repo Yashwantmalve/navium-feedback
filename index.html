@@ -144,7 +144,7 @@ body:before{content:"";position:fixed;inset:0;background:#071f3690;z-index:-1}
 
 /* Ratings: aligned legend + stars */
 .rating-legend{grid-template-columns:minmax(180px,2.3fr) repeat(6,minmax(34px,.55fr));padding:0 9px;margin-bottom:8px;overflow:visible}
-.rating-legend span{margin:0 2px;border-radius:5px;line-height:1.25;display:flex;align-items:center;justify-content:center;padding:8px 2px}
+.rating-legend span{margin:0 2px;border-radius:5px;line-height:1.25;display:block;text-align:center;padding:8px 3px;min-height:34px;box-sizing:border-box}
 .rating-legend .legend-blank{background:none}
 .rating-cell{position:relative;cursor:pointer;padding:4px 0}
 .rating-cell input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
