@@ -157,6 +157,9 @@ body:before{content:"";position:fixed;inset:0;background:#071f3690;z-index:-1}
 .rating-cell input:focus-visible + span{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
 @media(max-width:700px){.rating-legend{grid-template-columns:minmax(112px,1.8fr) repeat(6,minmax(24px,.5fr));padding:0 4px}.rating-legend span{margin:0 1px;padding:6px 1px}.rating-cell .star{font-size:22px}.rating-cell .na-chip{font-size:8px;padding:3px 4px}}
 
+.rating-legend em{font-style:normal}
+.rating-key{display:none}
+@media(max-width:700px){.rating-legend .lbl{display:none}.rating-legend span{font-size:11px!important;padding:6px 0!important}.rating-key{display:block;font-size:10.5px;color:#6b7a86;margin:0 0 10px;line-height:1.5}}
 /* Ship photo */
 .hero:before{background-position:center 60%,center 60%!important}
 
@@ -227,8 +230,9 @@ body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!impor
         <section class="form-step" data-step="2">
           <div class="section-heading"><span>C</span><div><h2>Client satisfaction rating</h2><p>Choose one rating for each applicable criterion.</p></div></div>
           <div class="rating-legend" aria-hidden="true">
-            <span class="legend-blank"></span><span class="poor">1 · Poor</span><span class="below">2 · Below expectations</span><span class="satisfactory">3 · Satisfactory</span><span class="good">4 · Good</span><span class="excellent">5 · Excellent</span><span class="na">N/A</span>
+            <span class="legend-blank"></span><span class="poor">1<em class="lbl"> · Poor</em></span><span class="below">2<em class="lbl"> · Below expectations</em></span><span class="satisfactory">3<em class="lbl"> · Satisfactory</em></span><span class="good">4<em class="lbl"> · Good</em></span><span class="excellent">5<em class="lbl"> · Excellent</em></span><span class="na">N/A</span>
           </div>
+          <p class="rating-key">1 Poor · 2 Below expectations · 3 Satisfactory · 4 Good · 5 Excellent</p>
           <div id="ratingRows" class="rating-list"></div>
           <p class="rating-note">Select N/A if a criterion was not relevant or could not be assessed.</p>
         </section>
