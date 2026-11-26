@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123b63">
+  <title>Navium Maritime | Client Feedback</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+*{box-sizing:border-box}
+:root{--navy:#071f36;--deep:#0b2d4b;--blue:#164d73;--gold:#e7c45e;--ink:#172b3c;--muted:#71808c;--line:#dfe6eb;--soft:#f4f6f7}
+body{margin:0;background:#f2f3f3;color:var(--ink);font-family:Arial,Helvetica,sans-serif;min-height:100vh;padding:0 16px 36px}
+.page-shell{max-width:1120px;margin:0 auto}
+.topbar{height:76px;display:flex;align-items:center;gap:14px;padding:0 24px;background:#fff}
+.brand-mark{width:43px;height:43px;border-radius:50%;border:2px solid var(--navy);color:var(--navy);display:grid;place-items:center;font:bold 23px Georgia,serif;background:#fff}
+.brand-copy{display:flex;flex-direction:column;gap:3px;letter-spacing:1.5px;color:var(--navy);font-size:13px}
+.brand-copy span{font-size:9px;color:#738391;letter-spacing:2px}
+.secure-note{margin-left:auto;color:#5f6d78;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.secure-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3b9b73;margin-right:7px}
+.form-card{background:#fff;overflow:hidden;border:1px solid #e1e5e8;box-shadow:0 14px 42px #0b263b12}
+.hero{position:relative;isolation:isolate;min-height:270px;padding:48px 58px 30px;color:white;background:linear-gradient(105deg,rgba(4,25,44,.94),rgba(7,43,67,.79) 57%,rgba(10,57,80,.63)),linear-gradient(135deg,#102f48,#31566b 60%,#9b9b8c);overflow:hidden}
+.hero:before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(ellipse at 78% 20%,#d9c88a40,transparent 33%),linear-gradient(160deg,transparent 52%,#071b2d 53%,#0a2d48 72%,#071d30 73%)}
+.hero:after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;height:42px;opacity:.6;background:repeating-linear-gradient(175deg,transparent 0 13px,#7ba0b1 14px 15px,transparent 16px 29px)}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:2.4px;color:var(--gold)}
+.hero h1{font:bold clamp(30px,4.5vw,46px)/1.08 Arial,Helvetica,sans-serif;margin:13px 0 12px;color:#fff;letter-spacing:-1.2px;text-transform:uppercase;max-width:650px}
+.hero p{max-width:650px;color:#e2eaf0;line-height:1.65;font-size:14px;margin:0}
+.meta-strip{display:flex;flex-wrap:wrap;margin-top:25px;max-width:760px;border-top:1px solid #ffffff45;border-bottom:1px solid #ffffff45}
+.meta-strip span{flex:1;min-width:105px;padding:10px 13px 10px 0;display:flex;flex-direction:column;gap:4px;border-right:1px solid #ffffff30;margin-right:14px}
+.meta-strip span:last-child{border:0}
+.meta-strip small{font-size:8px;letter-spacing:1px;color:#c4d1d9}
+.meta-strip b{font-size:11px;color:white}
+.progress-area{position:relative;margin:-1px 42px 0;padding:20px 28px 15px;background:white;border:1px solid #e5e9ec;border-top:3px solid var(--gold);box-shadow:0 8px 25px #102b4010}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:#657684;margin-bottom:9px}
+.progress-label b{color:var(--blue)}
+.progress-track{height:5px;border-radius:0;background:#e9edf0;overflow:hidden}
+.progress-track div{height:100%;width:25%;background:var(--gold);transition:width .45s ease}
+.step-dots{display:flex;justify-content:space-between;margin-top:11px}
+.step-dots span{font-size:9px;color:#9aa6af;font-weight:700}
+.step-dots span.active{color:var(--blue)}
+form{padding:34px 70px 38px}
+.form-step{display:none;animation:rise .32s ease both}
+.form-step.active{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.section-heading{display:flex;align-items:center;gap:14px;margin-bottom:25px;padding-bottom:15px;border-bottom:1px solid #e8ecef}
+.section-heading>span{width:35px;height:35px;display:grid;place-items:center;background:var(--navy);color:white;font:bold 14px Arial}
+.section-heading h2{margin:0;color:var(--navy);font:bold 17px Arial;text-transform:uppercase;letter-spacing:.2px}
+.section-heading p{margin:5px 0 0;color:#7c8992;font-size:12px}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px}
+.field{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;min-width:0}
+.field>span,fieldset legend{font-size:12px;font-weight:700;color:#344e62}
+.field i{font-style:normal;color:#c14b43}
+.field input,.field textarea{width:100%;border:1px solid #d7dfe4;border-radius:0;padding:13px 12px;font:13px Arial;color:var(--ink);background:#fafbfc;outline:none;transition:border-color .2s,background .2s}
+.field input:focus,.field textarea:focus{border-color:#b99a3c;background:white;box-shadow:0 0 0 2px #e7c45e2c}
+.field input::placeholder,.field textarea::placeholder{color:#a4afb7}
+.field.full{grid-column:1/-1}
+.hint{font-size:11px;color:#74838e;background:#f4f6f7;padding:12px 14px;border-left:3px solid var(--gold)}
+.hint span{color:#b18e29;margin-right:5px}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.choice{display:flex;align-items:center;gap:11px;border:1px solid #e0e5e9;padding:14px 13px;min-height:51px;font-size:12px;cursor:pointer;transition:.2s}
+.choice:hover{border-color:#c5a84d;background:#fffdf6}
+.choice input{position:absolute;opacity:0}
+.fake-check{width:17px;height:17px;border:1px solid #9eabb4;flex:none;position:relative}
+.choice input:checked+.fake-check{background:var(--navy);border-color:var(--navy)}
+.choice input:checked+.fake-check:after{content:'✓';position:absolute;color:white;font-size:12px;left:2px;top:0}
+.choice:has(input:checked){border-color:#c5a84d;background:#fffdf5}
+.other-field{margin-top:18px;display:none}
+.other-field.show{display:flex}
+.rating-legend{display:grid;grid-template-columns:repeat(6,1fr);overflow:hidden;margin-bottom:12px}
+.rating-legend span{text-align:center;color:white;font-size:9px;font-weight:700;padding:10px 3px}
+.poor{background:#bb4b48}.below{background:#c98247}.satisfactory{background:#b69b42}.good{background:#6d9466}.excellent{background:#26845e}.na{background:#77848c}
+.rating-list{border:1px solid #e3e8eb;overflow:hidden}
+.rating-row{display:grid;grid-template-columns:minmax(180px,2.3fr) repeat(6,minmax(34px,.55fr));align-items:center;min-height:54px;border-bottom:1px solid #e9edef;padding:7px 9px}
+.rating-row:last-child{border:0}.rating-row:nth-child(even){background:#f6f8f9}
+.rating-name{font-size:11px;line-height:1.4;font-weight:600;padding-right:10px}
+.rating-cell{display:grid;place-items:center}.rating-cell input{accent-color:var(--blue);width:16px;height:16px;cursor:pointer}
+.rating-note{font-size:11px;color:#83909a;margin:12px 0 0}
+textarea{resize:vertical;min-height:95px}.spaced{margin-top:22px}
+.future-field{border:0;padding:0;margin:24px 0}.future-field legend{margin-bottom:13px}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-choice input{position:absolute;opacity:0}
+.radio-choice span{display:block;padding:11px 22px;border:1px solid #dce3e8;font-size:12px;cursor:pointer;min-width:85px;text-align:center;transition:.2s}
+.radio-choice input:checked+span{border-color:var(--gold);background:#fff9e8;color:#604d12;font-weight:700}
+.review-box{display:flex;align-items:center;gap:13px;padding:15px;background:#f4f6f7;border-left:3px solid var(--gold)}
+.review-icon{width:30px;height:30px;display:grid;place-items:center;background:#e5f0e9;color:#26845e;font-weight:700}
+.review-box b{font-size:12px;color:var(--navy)}.review-box p{font-size:11px;color:#71808c;margin:4px 0 0;line-height:1.5}
+.error-message{color:#b53d3d;font-size:12px;min-height:18px;margin:0 0 6px}
+.form-actions{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+.btn{border:0;padding:14px 22px;font:bold 12px Arial;cursor:pointer;transition:transform .2s,background .2s;min-height:45px;text-transform:uppercase;letter-spacing:.4px}
+.btn:hover:not(:disabled){transform:translateY(-2px)}
+.btn-primary{background:var(--gold);color:#172b3c;margin-left:auto}
+.btn-primary:hover{background:#f0d47c}
+.btn-secondary{background:#eef1f3;color:#4d6170}
+.btn:disabled{opacity:.4;cursor:not-allowed}.btn span{margin-left:10px}
+.success-panel{text-align:center;padding:55px 30px 65px;animation:rise .4s ease}
+.success-animation{width:68px;height:68px;margin:0 auto 22px;background:#e5f2e9;color:#26845e;display:grid;place-items:center;font-size:32px;animation:pop .4s ease}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.success-panel h2{font:bold 26px Arial;color:var(--navy);margin:10px 0}
+.success-panel p{font-size:13px;color:#71808c;margin:0 auto 24px;max-width:420px;line-height:1.6}
+.success-panel .btn{display:block;margin:0 auto}
+.text-button{border:0;background:none;color:var(--blue);font:600 12px Arial;margin-top:16px;cursor:pointer}
+footer{border-top:1px solid #e8ecef;padding:18px 42px;display:flex;justify-content:space-between;gap:10px;color:#89959e;font-size:10px}
+@media(max-width:700px){body{padding:0 8px 20px}.topbar{height:64px;padding:0 12px}.hero{padding:35px 23px 25px;min-height:250px}.hero h1{font-size:30px}.hero p{font-size:13px}.meta-strip span{min-width:30%;margin-right:8px}.progress-area{margin:0 12px;padding:17px 16px 13px}form{padding:26px 20px 28px}.field-grid,.choice-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.rating-legend span{font-size:7px;padding:8px 1px}.rating-row{grid-template-columns:minmax(112px,1.8fr) repeat(6,minmax(24px,.5fr));padding:6px 4px;min-height:58px}.rating-name{font-size:9px}.rating-cell input{width:14px;height:14px}.section-heading h2{font-size:14px}footer{padding:15px 20px;font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* Maritime motion theme */
+body{background:#102b40 url('https://images.unsplash.com/photo-1699588999949-e25959a59550?w=1920&q=75&auto=format&fit=crop') center/cover fixed no-repeat;padding-top:22px}
+body:before{content:"";position:fixed;inset:0;background:#071f3690;z-index:-1}
+.page-shell{animation:portal-in .65s ease both}
+.topbar{background:#273244;border-radius:14px 14px 0 0}
+.brand-mark{width:56px;height:56px;border:0;border-radius:8px;object-fit:contain;background:#273244}
+.brand-copy,.brand-copy span,.secure-note{color:#edf3fa}
+.secure-dot{animation:beacon 2.5s infinite}
+.form-card{border-radius:0 0 14px 14px;box-shadow:0 20px 65px #071b3066}
+.hero{background:#102f48;min-height:300px}
+.hero:before{background:linear-gradient(90deg,#071f36f5 0%,#071f36d9 43%,#071f3650 100%),url('https://images.unsplash.com/photo-1699588999949-e25959a59550?w=1920&q=75&auto=format&fit=crop') center 55%/cover no-repeat;animation:sea-pan 24s ease-in-out infinite alternate}
+.hero:after{opacity:.25;animation:sea-lines 12s linear infinite}
+.hero > *{animation:portal-in .7s ease both}.hero h1{animation-delay:.1s}.hero p{animation-delay:.2s}.meta-strip{animation-delay:.3s}
+.progress-track{height:8px;border-radius:8px}.progress-track div{position:relative;border-radius:8px;overflow:hidden}.progress-track div:after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,#ffffff80 50%,transparent 70%);animation:shine 2.8s infinite}
+.form-step.active .field,.form-step.active .choice,.form-step.active .rating-row{animation:portal-in .42s ease both}
+.form-step.active :is(.field,.choice,.rating-row):nth-child(2n){animation-delay:.07s}.form-step.active :is(.field,.choice,.rating-row):nth-child(3n){animation-delay:.12s}
+.field input,.field textarea,.choice,.radio-choice span{border-radius:7px;transition:box-shadow .2s,border-color .2s,transform .2s}
+.field input:focus,.field textarea:focus{box-shadow:0 0 0 4px #164d731a}
+.choice:hover,.radio-choice:hover span{transform:translateY(-2px);box-shadow:0 5px 14px #102b4015}
+.rating-cell input{transition:transform .2s}.rating-cell input:checked{transform:scale(1.22)}
+.btn{border-radius:7px}.btn-primary:hover{box-shadow:0 6px 18px #b28b3c55}.btn:active:not(:disabled){transform:scale(.97)}
+.success-animation{border-radius:50%;animation:celebrate .65s cubic-bezier(.2,.8,.3,1.4) both}
+[hidden]{display:none!important}
+@keyframes portal-in{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sea-pan{from{transform:scale(1)}to{transform:scale(1.08) translateX(-1%)}}
+@keyframes sea-lines{to{background-position:120px 0}}
+@keyframes shine{from{transform:translateX(-110%)}to{transform:translateX(110%)}}
+@keyframes beacon{50%{box-shadow:0 0 0 5px #3b9b7330}}
+@keyframes celebrate{from{opacity:0;transform:scale(.3) rotate(-20deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+@media(max-width:700px){body{padding-top:8px}.brand-mark{width:43px;height:43px}.hero{min-height:250px}.hero:before{background-position:65% center}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+.rating-row.missing{background:#fdf0ef!important;box-shadow:inset 3px 0 0 #c14b43;animation:nudge .35s}
+@keyframes nudge{20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+.btn.sending{opacity:.85;cursor:wait}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid #172b3c55;border-top-color:#172b3c;border-radius:50%;animation:spinr .8s linear infinite;vertical-align:-2px}
+@keyframes spinr{to{transform:rotate(360deg)}}
+
+/* Ship photo */
+.hero:before{background-position:center 60%,center 60%!important}
+
+/* Roboto */
+body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!important}
+.hero h1{letter-spacing:-.6px}
+</style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <img class="brand-mark" src="data:image/png;base64,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" alt="Navium Maritime logo">
+      <div class="brand-copy"><strong>NAVIUM MARITIME</strong><span>CLIENT EXPERIENCE</span></div>
+      <div class="secure-note"><span class="secure-dot"></span> Feedback portal</div>
+    </header>
+
+    <main class="form-card">
+      <div class="hero">
+        <div class="eyebrow">YOUR EXPERIENCE · OUR IMPROVEMENT</div>
+        <h1>Client Feedback Form</h1>
+        <p>Your feedback matters. Help us continuously improve the quality, reliability and effectiveness of our services. Thank you for taking a moment to share your experience.</p>
+        <div class="meta-strip">
+          <span><small>DOCUMENT NO.</small><b>NM-Q-C-02</b></span>
+          <span><small>ISSUE NO.</small><b>00</b></span>
+          <span><small>ISSUE DATE</small><b>01.11.2026*</b></span>
+          <span><small>REVISION NO.</small><b>00</b></span>
+        </div>
+      </div>
+
+      <div class="progress-area">
+        <div class="progress-label"><span id="stepLabel">Step 1 of 4 · Client details</span><b id="progressPercent">25%</b></div>
+        <div class="progress-track"><div id="progressBar"></div></div>
+        <div class="step-dots" aria-label="Form progress">
+          <span class="active">01</span><span>02</span><span>03</span><span>04</span>
+        </div>
+      </div>
+
+      <form id="feedbackForm" novalidate>
+        <section class="form-step active" data-step="0">
+          <div class="section-heading"><span>A</span><div><h2>Client and assignment details</h2><p>Tell us a little about yourself and the assignment.</p></div></div>
+          <div class="field-grid">
+            <label class="field"><span>Name of respondent <i>*</i></span><input name="respondent" required placeholder="Enter your full name"></label>
+            <label class="field"><span>Designation</span><input name="designation" placeholder="Your job title"></label>
+            <label class="field"><span>Email address <i>*</i></span><input name="email" type="email" required placeholder="name@company.com"></label>
+            <label class="field"><span>Company name <i>*</i></span><input name="company" required placeholder="Your company"></label>
+            <label class="field"><span>Vessel name (if applicable)</span><input name="vessel" placeholder="Vessel name"></label>
+            <label class="field"><span>Project / reference number</span><input name="project" placeholder="Reference number"></label>
+            <label class="field full"><span>Attending surveyor / assigned representative</span><input name="representative" placeholder="Name of representative"></label>
+          </div>
+          <div class="hint"><span>✦</span> Fields marked with * are mandatory. Vessel name and project reference are optional where not applicable.</div>
+        </section>
+
+        <section class="form-step" data-step="1">
+          <div class="section-heading"><span>B</span><div><h2>Nature of service</h2><p>Select all services relevant to this feedback.</p></div></div>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" name="services" value="Marine Audits"><span class="fake-check"></span><span>Marine Audits</span></label>
+            <label class="choice"><input type="checkbox" name="services" value="Vessel Inspections"><span class="fake-check"></span><span>Vessel Inspections</span></label>
+            <label class="choice"><input type="checkbox" name="services" value="Inspection Attendance / Surveyor Deployment"><span class="fake-check"></span><span>Inspection Attendance / Surveyor Deployment</span></label>
+            <label class="choice"><input type="checkbox" name="services" value="Pre-Inspection / Inspection Preparation Services"><span class="fake-check"></span><span>Pre-Inspection / Inspection Preparation Services</span></label>
+            <label class="choice"><input type="checkbox" name="services" value="Remote Audits / Remote Technical Support"><span class="fake-check"></span><span>Remote Audits / Remote Technical Support</span></label>
+            <label class="choice"><input type="checkbox" name="services" value="Safety Management System (SMS) Consultancy"><span class="fake-check"></span><span>Safety Management System (SMS) Consultancy</span></label>
+            <label class="choice"><input type="checkbox" name="services" value="Training and Competency Development"><span class="fake-check"></span><span>Training and Competency Development</span></label>
+            <label class="choice"><input type="checkbox" name="services" value="Other"><span class="fake-check"></span><span>Other (please specify)</span></label>
+          </div>
+          <label class="field other-field" id="otherWrap"><span>Please specify other service</span><input name="otherService" id="otherService" placeholder="Describe the service"></label>
+        </section>
+
+        <section class="form-step" data-step="2">
+          <div class="section-heading"><span>C</span><div><h2>Client satisfaction rating</h2><p>Choose one rating for each applicable criterion.</p></div></div>
+          <div class="rating-legend">
+            <span class="poor">1 · Poor</span><span class="below">2 · Below expectations</span><span class="satisfactory">3 · Satisfactory</span><span class="good">4 · Good</span><span class="excellent">5 · Excellent</span><span class="na">N/A</span>
+          </div>
+          <div id="ratingRows" class="rating-list"></div>
+          <p class="rating-note">Select N/A if a criterion was not relevant or could not be assessed.</p>
+        </section>
+
+        <section class="form-step" data-step="3">
+          <div class="section-heading"><span>D</span><div><h2>Additional comments</h2><p>Your suggestions help us serve you better.</p></div></div>
+          <label class="field"><span>8. What aspects of our service did you particularly appreciate?</span><textarea name="appreciated" rows="4" placeholder="Share what went well..."></textarea></label>
+          <label class="field spaced"><span>9. What improvements would you recommend for future assignments?</span><textarea name="improvements" rows="4" placeholder="Tell us how we can improve..."></textarea></label>
+          <fieldset class="future-field"><legend>10. Would you consider engaging Navium Maritime for future services?</legend>
+            <div class="radio-row">
+              <label class="radio-choice"><input type="radio" name="future" value="Yes"><span>Yes</span></label>
+              <label class="radio-choice"><input type="radio" name="future" value="No"><span>No</span></label>
+              <label class="radio-choice"><input type="radio" name="future" value="Maybe"><span>Maybe</span></label>
+            </div>
+          </fieldset>
+          <div class="review-box"><div class="review-icon">✓</div><div><b>Almost there!</b><p>Review your answers before submitting. Your feedback will help us improve our services.</p></div></div>
+        </section>
+
+        <div class="error-message" id="errorMessage" role="alert" aria-live="polite"></div>
+        <div class="form-actions">
+          <button type="button" id="backBtn" class="btn btn-secondary" disabled>← Back</button>
+          <button type="button" id="nextBtn" class="btn btn-primary">Continue <span>→</span></button>
+          <button type="submit" id="submitBtn" class="btn btn-primary" hidden>Submit feedback <span>✓</span></button>
+        </div>
+      </form>
+      <div id="successPanel" class="success-panel" hidden>
+        <div class="success-animation">✓</div>
+        <div class="eyebrow">FEEDBACK RECEIVED</div>
+        <h2>Thank you for your feedback!</h2>
+        <p id="savedNote">Your time and input are appreciated. Your responses have been saved in this browser.</p>
+        <button id="downloadBtn" class="btn btn-primary" type="button">Download a copy <span>↓</span></button>
+        <button id="newResponseBtn" class="text-button" type="button">Submit another response</button>
+      </div>
+      <footer><span>© 2026 Navium Maritime</span><span>Thank you for helping us improve.</span></footer>
+    </main>
+  </div>
+  <script>
+(function () {
+  var form = document.getElementById('feedbackForm');
+  var steps = [].slice.call(document.querySelectorAll('.form-step'));
+  var backBtn = document.getElementById('backBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var submitBtn = document.getElementById('submitBtn');
+  var errorMessage = document.getElementById('errorMessage');
+  var progressBar = document.getElementById('progressBar');
+  var progressPercent = document.getElementById('progressPercent');
+  var stepLabel = document.getElementById('stepLabel');
+  var successPanel = document.getElementById('successPanel');
+  var labels = ['Client details', 'Nature of service', 'Satisfaction rating', 'Additional comments'];
+  var criteria = [
+    'Responsiveness to Initial Enquiry',
+    'Clarity and Timeliness of Quotation',
+    'Communication Throughout the Assignment',
+    'Timeliness of Service Delivery and Report Submission',
+    'Quality, Accuracy and Completeness of Report / Deliverables',
+    'Responsiveness to Queries and Clarifications',
+    "Overall Satisfaction with Navium Maritime's Services"
+  ];
+  var ratingRows = document.getElementById('ratingRows');
+  var currentStep = 0;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  criteria.forEach(function (criterion, i) {
+    var row = document.createElement('div');
+    row.className = 'rating-row';
+    var name = document.createElement('div');
+    name.className = 'rating-name';
+    name.textContent = criterion;
+    row.appendChild(name);
+    ['1', '2', '3', '4', '5', 'N/A'].forEach(function (value) {
+      var cell = document.createElement('label');
+      cell.className = 'rating-cell';
+      var input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'rating_' + i;
+      input.value = value;
+      input.setAttribute('aria-label', criterion + ': ' + value);
+      input.addEventListener('change', function () { row.classList.remove('missing'); });
+      cell.appendChild(input);
+      row.appendChild(cell);
+    });
+    ratingRows.appendChild(row);
+  });
+
+  function scrollTop() {
+    document.querySelector('.form-card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function updateStep() {
+    steps.forEach(function (step, i) { step.classList.toggle('active', i === currentStep); });
+    var percent = Math.round(((currentStep + 1) / steps.length) * 100);
+    progressBar.style.width = percent + '%';
+    progressPercent.textContent = percent + '%';
+    stepLabel.textContent = 'Step ' + (currentStep + 1) + ' of ' + steps.length + ' · ' + labels[currentStep];
+    [].forEach.call(document.querySelectorAll('.step-dots span'), function (dot, i) { dot.classList.toggle('active', i <= currentStep); });
+    backBtn.disabled = currentStep === 0;
+    nextBtn.hidden = currentStep === steps.length - 1;
+    submitBtn.hidden = currentStep !== steps.length - 1;
+    errorMessage.textContent = '';
+    scrollTop();
+  }
+
+  function validateStep() {
+    if (currentStep === 0) {
+      var required = [].slice.call(steps[0].querySelectorAll('[required]'));
+      for (var k = 0; k < required.length; k++) {
+        var input = required[k];
+        if (!input.value.trim() || (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim()))) {
+          input.focus();
+          errorMessage.textContent = input.type === 'email' && input.value ? 'Please enter a valid email address.' : 'Please complete all mandatory fields before continuing.';
+          return false;
+        }
+      }
+    }
+    if (currentStep === 1) {
+      if (!document.querySelector('input[name="services"]:checked')) {
+        errorMessage.textContent = 'Please select at least one service to continue.';
+        return false;
+      }
+      var other = document.querySelector('input[name="services"][value="Other"]');
+      if (other.checked && !document.getElementById('otherService').value.trim()) {
+        document.getElementById('otherService').focus();
+        errorMessage.textContent = 'Please specify the other service.';
+        return false;
+      }
+    }
+    if (currentStep === 2) {
+      var missing = null;
+      criteria.forEach(function (c, i) {
+        if (!document.querySelector('input[name="rating_' + i + '"]:checked')) {
+          var r = ratingRows.children[i];
+          r.classList.add('missing');
+          if (!missing) missing = r;
+        }
+      });
+      if (missing) {
+        errorMessage.textContent = 'Please choose a rating (or N/A) for every criterion.';
+        missing.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        return false;
+      }
+    }
+    return true;
+  }
+
+  nextBtn.addEventListener('click', function () {
+    if (!validateStep()) return;
+    currentStep = Math.min(currentStep + 1, steps.length - 1);
+    updateStep();
+  });
+  backBtn.addEventListener('click', function () {
+    currentStep = Math.max(currentStep - 1, 0);
+    updateStep();
+  });
+
+  [].forEach.call(document.querySelectorAll('input[name="services"]'), function (input) {
+    input.addEventListener('change', function () {
+      var otherSelected = !!document.querySelector('input[name="services"][value="Other"]:checked');
+      document.getElementById('otherWrap').classList.toggle('show', otherSelected);
+    });
+  });
+
+  function val(name) {
+    var el = form.elements[name];
+    return el && el.value ? el.value.trim() : '';
+  }
+
+  function collectData() {
+    var services = [].map.call(document.querySelectorAll('input[name="services"]:checked'), function (x) { return x.value; });
+    var future = document.querySelector('input[name="future"]:checked');
+    return {
+      name: val('respondent'),
+      designation: val('designation'),
+      email: val('email'),
+      company: val('company'),
+      vessel: val('vessel'),
+      project: val('project'),
+      surveyor: val('representative'),
+      services: services.filter(function (s) { return s !== 'Other'; }),
+      other: services.indexOf('Other') !== -1 ? val('otherService') : '',
+      ratings: criteria.map(function (c, i) {
+        var r = document.querySelector('input[name="rating_' + i + '"]:checked');
+        return r ? r.value : '';
+      }),
+      appreciate: val('appreciated'),
+      improve: val('improvements'),
+      future: future ? future.value : ''
+    };
+  }
+
+  var latestResponse = null;
+  function templateData() {
+    var data = Object.fromEntries(new FormData(form).entries());
+    data.services = [].map.call(document.querySelectorAll('input[name="services"]:checked'), function (x) { return x.value; });
+    data.ratings = criteria.map(function (criterion, i) {
+      var r = document.querySelector('input[name="rating_' + i + '"]:checked');
+      return { criterion: criterion, rating: r ? r.value : 'Not answered' };
+    });
+    data.submittedAt = new Date().toISOString();
+    return data;
+  }
+  function downloadResponse() {
+    if (!latestResponse) return;
+    var blob = new Blob([JSON.stringify(latestResponse, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'navium-feedback-' + new Date().toISOString().slice(0, 10) + '.json';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  document.getElementById('downloadBtn').addEventListener('click', downloadResponse);
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (!document.querySelector('input[name="future"]:checked')) {
+      errorMessage.textContent = 'Please answer whether you would consider engaging Navium Maritime again.';
+      return;
+    }
+    errorMessage.textContent = '';
+    submitBtn.disabled = true;
+    backBtn.disabled = true;
+    submitBtn.classList.add('sending');
+    submitBtn.innerHTML = 'Sending… <span class="spin"></span>';
+    var d = collectData();
+    var p = new URLSearchParams();
+    var E = {
+      name: 'entry.1483861989', designation: 'entry.1871855768', email: 'entry.41005886', company: 'entry.754266159',
+      vessel: 'entry.743370108', project: 'entry.1459296863', surveyor: 'entry.1358197324',
+      services: 'entry.1950953254', appreciate: 'entry.1356941078', improve: 'entry.693964203', future: 'entry.463851896'
+    };
+    var R = ['entry.1532793416', 'entry.1038499075', 'entry.616100318', 'entry.1063253077', 'entry.1732904413', 'entry.1848608193', 'entry.1914488000'];
+    ['name', 'designation', 'email', 'company', 'vessel', 'project', 'surveyor', 'appreciate', 'improve', 'future'].forEach(function (k) {
+      if (d[k]) p.append(E[k], d[k]);
+    });
+    d.services.forEach(function (s) { p.append(E.services, s); });
+    if (d.other) { p.append(E.services, '__other_option__'); p.append(E.services + '.other_option_response', d.other); }
+    d.ratings.forEach(function (r, i) { p.append(R[i], r); });
+    p.append('pageHistory', '0,1,2,3');
+    var onSuccess = function () {
+        latestResponse = templateData();
+        try {
+          var saved = JSON.parse(localStorage.getItem('naviumFeedbackResponses') || '[]');
+          saved.push(latestResponse);
+          localStorage.setItem('naviumFeedbackResponses', JSON.stringify(saved));
+        } catch (e) {
+          document.getElementById('savedNote').textContent = 'Your time and input are appreciated. Your responses have been saved.';
+        }
+        form.hidden = true;
+        document.querySelector('.progress-area').hidden = true;
+        successPanel.hidden = false;
+        scrollTop();
+    };
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSfUgDJTGOmnPUjrMybfs2dC72-xAh2Mv0czXwHHuM1EOCUN8A/formResponse', {
+      method: 'POST', mode: 'no-cors', body: p
+    }).then(onSuccess).catch(function () {
+        submitBtn.disabled = false;
+        backBtn.disabled = false;
+        submitBtn.classList.remove('sending');
+        submitBtn.innerHTML = 'Submit feedback <span>✓</span>';
+        errorMessage.textContent = 'Could not send your feedback. Please check your internet connection and try again.';
+    });
+  });
+
+  document.getElementById('newResponseBtn').addEventListener('click', function () {
+    form.reset();
+    [].forEach.call(document.querySelectorAll('.rating-row'), function (r) { r.classList.remove('missing'); });
+    document.getElementById('otherWrap').classList.remove('show');
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('sending');
+    submitBtn.innerHTML = 'Submit feedback <span>✓</span>';
+    successPanel.hidden = true;
+    form.hidden = false;
+    document.querySelector('.progress-area').hidden = false;
+    currentStep = 0;
+    updateStep();
+  });
+
+  var _s = scrollTop; scrollTop = function () {}; updateStep(); scrollTop = _s;
+})();
+
+</script>
+</body>
+</html>
