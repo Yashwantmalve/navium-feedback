@@ -142,6 +142,21 @@ body:before{content:"";position:fixed;inset:0;background:#071f3690;z-index:-1}
 .spin{display:inline-block;width:12px;height:12px;border:2px solid #172b3c55;border-top-color:#172b3c;border-radius:50%;animation:spinr .8s linear infinite;vertical-align:-2px}
 @keyframes spinr{to{transform:rotate(360deg)}}
 
+/* Ratings: aligned legend + stars */
+.rating-legend{grid-template-columns:minmax(180px,2.3fr) repeat(6,minmax(34px,.55fr));padding:0 9px;margin-bottom:8px;overflow:visible}
+.rating-legend span{margin:0 2px;border-radius:5px;line-height:1.25;display:flex;align-items:center;justify-content:center;padding:8px 2px}
+.rating-legend .legend-blank{background:none}
+.rating-cell{position:relative;cursor:pointer;padding:4px 0}
+.rating-cell input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.rating-cell .star{font-size:28px;line-height:1;color:#d3dae0;transition:color .15s,transform .15s;user-select:none}
+.rating-cell.hover .star{color:#f2d27a}
+.rating-cell.on .star{color:#e6b422;transform:scale(1.08)}
+.rating-cell:hover .star{transform:scale(1.18)}
+.rating-cell .na-chip{font-size:10px;font-weight:700;color:#5f6d78;border:1px solid #c9d2d8;border-radius:12px;padding:4px 8px;transition:all .15s;user-select:none}
+.rating-cell input:checked + .na-chip{background:#77848c;border-color:#77848c;color:#fff}
+.rating-cell input:focus-visible + span{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+@media(max-width:700px){.rating-legend{grid-template-columns:minmax(112px,1.8fr) repeat(6,minmax(24px,.5fr));padding:0 4px}.rating-legend span{margin:0 1px;padding:6px 1px}.rating-cell .star{font-size:22px}.rating-cell .na-chip{font-size:8px;padding:3px 4px}}
+
 /* Ship photo */
 .hero:before{background-position:center 60%,center 60%!important}
 
@@ -211,8 +226,8 @@ body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!impor
 
         <section class="form-step" data-step="2">
           <div class="section-heading"><span>C</span><div><h2>Client satisfaction rating</h2><p>Choose one rating for each applicable criterion.</p></div></div>
-          <div class="rating-legend">
-            <span class="poor">1 · Poor</span><span class="below">2 · Below expectations</span><span class="satisfactory">3 · Satisfactory</span><span class="good">4 · Good</span><span class="excellent">5 · Excellent</span><span class="na">N/A</span>
+          <div class="rating-legend" aria-hidden="true">
+            <span class="legend-blank"></span><span class="poor">1 · Poor</span><span class="below">2 · Below expectations</span><span class="satisfactory">3 · Satisfactory</span><span class="good">4 · Good</span><span class="excellent">5 · Excellent</span><span class="na">N/A</span>
           </div>
           <div id="ratingRows" class="rating-list"></div>
           <p class="rating-note">Select N/A if a criterion was not relevant or could not be assessed.</p>
@@ -243,8 +258,7 @@ body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!impor
         <div class="success-animation">✓</div>
         <div class="eyebrow">FEEDBACK RECEIVED</div>
         <h2>Thank you for your feedback!</h2>
-        <p id="savedNote">Your time and input are appreciated. Your responses have been saved in this browser.</p>
-        <button id="downloadBtn" class="btn btn-primary" type="button">Download a copy <span>↓</span></button>
+        <p>Your time and input are appreciated. Your response has been recorded and will be reviewed by the Navium Maritime team.</p>
         <button id="newResponseBtn" class="text-button" type="button">Submit another response</button>
       </div>
       <footer><span>© 2026 Navium Maritime</span><span>Thank you for helping us improve.</span></footer>
@@ -276,6 +290,14 @@ body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!impor
   var currentStep = 0;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  function paint(row, value, hover) {
+    var n = value === 'N/A' || !value ? 0 : parseInt(value, 10);
+    [].forEach.call(row.querySelectorAll('.rating-cell'), function (c, k) {
+      c.classList.toggle(hover ? 'hover' : 'on', k < n);
+      if (!hover) c.classList.remove('hover');
+    });
+  }
+
   criteria.forEach(function (criterion, i) {
     var row = document.createElement('div');
     row.className = 'rating-row';
@@ -291,8 +313,16 @@ body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!impor
       input.name = 'rating_' + i;
       input.value = value;
       input.setAttribute('aria-label', criterion + ': ' + value);
-      input.addEventListener('change', function () { row.classList.remove('missing'); });
+      input.addEventListener('change', function () { row.classList.remove('missing'); paint(row, value); });
       cell.appendChild(input);
+      var face = document.createElement('span');
+      face.className = value === 'N/A' ? 'na-chip' : 'star';
+      face.textContent = value === 'N/A' ? 'N/A' : '★';
+      cell.appendChild(face);
+      if (value !== 'N/A') {
+        cell.addEventListener('mouseenter', function () { paint(row, value, true); });
+        cell.addEventListener('mouseleave', function () { var c = row.querySelector('input:checked'); paint(row, c ? c.value : '', true); });
+      }
       row.appendChild(cell);
     });
     ratingRows.appendChild(row);
@@ -403,30 +433,6 @@ body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!impor
     };
   }
 
-  var latestResponse = null;
-  function templateData() {
-    var data = Object.fromEntries(new FormData(form).entries());
-    data.services = [].map.call(document.querySelectorAll('input[name="services"]:checked'), function (x) { return x.value; });
-    data.ratings = criteria.map(function (criterion, i) {
-      var r = document.querySelector('input[name="rating_' + i + '"]:checked');
-      return { criterion: criterion, rating: r ? r.value : 'Not answered' };
-    });
-    data.submittedAt = new Date().toISOString();
-    return data;
-  }
-  function downloadResponse() {
-    if (!latestResponse) return;
-    var blob = new Blob([JSON.stringify(latestResponse, null, 2)], { type: 'application/json' });
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement('a');
-    link.href = url;
-    link.download = 'navium-feedback-' + new Date().toISOString().slice(0, 10) + '.json';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-  }
-  document.getElementById('downloadBtn').addEventListener('click', downloadResponse);
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -455,14 +461,6 @@ body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!impor
     d.ratings.forEach(function (r, i) { p.append(R[i], r); });
     p.append('pageHistory', '0,1,2,3');
     var onSuccess = function () {
-        latestResponse = templateData();
-        try {
-          var saved = JSON.parse(localStorage.getItem('naviumFeedbackResponses') || '[]');
-          saved.push(latestResponse);
-          localStorage.setItem('naviumFeedbackResponses', JSON.stringify(saved));
-        } catch (e) {
-          document.getElementById('savedNote').textContent = 'Your time and input are appreciated. Your responses have been saved.';
-        }
         form.hidden = true;
         document.querySelector('.progress-area').hidden = true;
         successPanel.hidden = false;
@@ -481,6 +479,7 @@ body,body *:not(.fake-check){font-family:Roboto,Arial,Helvetica,sans-serif!impor
 
   document.getElementById('newResponseBtn').addEventListener('click', function () {
     form.reset();
+    [].forEach.call(document.querySelectorAll('.rating-cell'), function (c) { c.classList.remove('on', 'hover'); });
     [].forEach.call(document.querySelectorAll('.rating-row'), function (r) { r.classList.remove('missing'); });
     document.getElementById('otherWrap').classList.remove('show');
     submitBtn.disabled = false;
